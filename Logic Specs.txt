@@ -1,0 +1,14 @@
+Logic Specs
+
+1. If Hall is unoccupied, then allow person to block for a time range
+2. if hall is occupied, then 
+	a).add person to queue, (with timeRange.from later than current timeRange.to)
+		(max timeRange will be decided later)
+		OR
+	b). inform that hall is occupied till timeRange.to, and 
+
+3. if hall is occupied, timeRange comes to end, 
+	a). inform user about the timeRange getting over. 
+	b). allow next user as occupied person (dequeue person from 'hall.blockQueue', and populate 'hall.occupancy')
+
+

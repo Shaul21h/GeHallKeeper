@@ -1,0 +1,55 @@
+extends ../layout
+
+block content
+	script(src='/javascripts/ge-hallkeeper-app/app.js')
+	script(src='/javascripts/ge-hallkeeper-app/controllers/hallAdminController.js')
+	div
+		div.form-wrap(ng-app="GeHallKeeperApp",ng-controller="hallAdminController",ng-init="init()")
+			div
+				input(type="radio",value="true",ng-model="data.isNew",name="create-or-edit")
+				label New
+				input(type="radio",value="false",ng-model="data.isNew",name="create-or-edit")
+				label Edit
+			span Hall Id
+			input(id='txt-hall-id',type='text',ng-model="data.hall.hallId")
+			br
+			span Name
+			input(id='txt-name',type='text',ng-model="data.hall.name",ng-show="data.isNew=='true'")
+			span
+				select(ng-show="data.isNew=='false'",ng-model="data.hall", ng-options="hall.name for hall in halls")
+				button(ng-show="data.isNew=='false'",ng-click="editHallName()") Edit
+			br
+			span Alias
+			input(id='txt-alias',type='text',ng-model="data.hall.alias")
+			br
+			span Capabilities
+			textarea(id='txt-capabilities', placeholder="Comma Separated Values" ng-model="data.hall.capabilities", ng-trim="false", makearray) comma separated values
+			br
+			span Location hint
+			input(id='txt-location-hint',type='text', ng-model="data.hall.locationHint")
+			br
+			div.occupancy-wrap
+				div.occupied-wrap
+					input(type='radio',ng-value='true', ng-model="data.hall.occupancy.occupied", name="occupied")
+					label Occupied
+					input(type='radio',ng-value='false', ng-model="data.hall.occupancy.occupied",name="occupied")
+					label Vacant
+				div.occupancy-detailed-wrap(ng-show="data.hall.occupancy.occupied")
+					div
+						label Occupied By:
+						input(type='text', ng-model="data.hall.occupancy.occupiedBy")
+					div
+						label Purpose:
+						textarea(ng-model="data.hall.occupancy.purpose")
+					div 
+						label Team:
+						input(type='text',ng-model="data.hall.occupancy.team")
+					div
+						label TimeRange
+						div
+							label From
+							input(type='time',id='from',datify="data.hall.occupancy.timeRange.from",ng-model="data.hall.occupancy.timeRange.from",value="{{data.hall.occupancy.timeRange.from | propertime}}")
+							label To
+							input(type='time',ng-trim='false',datify="data.hall.occupancy.timeRange.to",ng-model="data.hall.occupancy.timeRange.to", value="{{data.hall.occupancy.timeRange.to | propertime}}")
+			button(ng-click="submitForm()") {{submitButtonText()}}
+			pre {{data.hall|json}}

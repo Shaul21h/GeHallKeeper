@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+	script(src='/javascripts/ge-hallkeeper-app/app.js')
+	script(src='/javascripts/ge-hallkeeper-app/controllers/homeController.js')
+	
+	div(ng-app='GeHallKeeperApp', ng-controller="homeController", ng-init="init()")
+		h1 Welcome to #{title}
+		
+		div.halls-container
+				include bookdialog
+				div.hall-wrap(ng-repeat= "hall in halls")
+					p Name: 
+						b {{hall.name}}
+						button(ng-class="{'disabled':hall.occupancy.occupied=='true'}", ng-click="setSelectedHall(hall)") Book
+					div(class="occupancy-details" ng-show="hall.occupancy.occupied==true")
+						p Occupied by: {{hall.occupancy.occupiedBy}}
+						p Time Range: {{hall.occupancy.timeRange.from | readableDate}} to {{hall.occupancy.timeRange.to | readableDate}}
+					//p(onclick='javascript:document.getElementsByClassName("dialog-wrap")[0].style.display = "block"') Occupied: {{hall.occupancy.occupied}}
+		span.socket-status(ng-class="{'green':isSocketConnected,'red':!isSocketConnected}") {{connectionStatusText()}}

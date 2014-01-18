@@ -1,0 +1,13 @@
+div.dialog-wrap
+	input(type='hidden',id='hallName')
+	p Name
+		input(id='userName',ng-model="selectedHall.occupancy.occupiedBy")
+	p Purpose
+		input(id='userPurpose',ng-model="selectedHall.occupancy.purpose")
+	p Team
+		input(id='userTeam',ng-model="selectedHall.occupancy.team")
+	p From
+		input(id='bookFrom',ng-model="selectedHall.occupancy.timeRange.from")
+	p To
+		input(id='bookTo',ng-model="selectedHall.occupancy.timeRange.to")
+	button(ng-click='bookHall()') Submit
